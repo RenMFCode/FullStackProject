@@ -41,6 +41,7 @@ public static class ProductModule
         {
             var product = await db.Products.FindAsync(id);
             if (product is null) return Results.NotFound();
+            if (price < 0) return Results.BadRequest("Price must be non-negative.");
             product.Price = price;
             await db.SaveChangesAsync();
             return Results.Ok(product);
